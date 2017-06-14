@@ -17,5 +17,11 @@ namespace StudentList.Services
             return studentList.Split(',');
         }
 
+        public int CountStudents()
+        {
+           var studentList = _storage.LoadStudentList();
+           return studentList.Split(',').Length;
+        }
+
     }
 }
