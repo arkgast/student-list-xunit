@@ -5,44 +5,41 @@ namespace StudentList.Services
 {
     public class StudentManager
     {
+        private const char StudentEntryDelimiter = ',';
         private StudentStorage _storage;
         private Random _rand;
+        private string _studentList;
         public StudentManager(StudentStorage storage)
         {
             _storage = storage;
             _rand = new Random();
+            _studentList = _storage.LoadStudentList();
         }
 
-        public string[] GetAllStudents()
+        public string[] Students
         {
-            var studentList =  _storage.LoadStudentList();
-            return studentList.Split(',');
-        }
-
-        public int CountStudents()
-        {
-           var studentList = _storage.LoadStudentList();
-           return studentList.Split(',').Length;
+            get
+            {
+                return _studentList.Split(StudentEntryDelimiter);
+            }
         }
 
         public string PickRandomStudent()
         {
-            var studentList = _storage.LoadStudentList();
-            var students = studentList.Split(',');
+            var students = _studentList.Split(StudentEntryDelimiter);
             var randomIndex = _rand.Next(0,students.Length);
             return students[randomIndex];
         }
 
         public void AddStudent(string newStudent)
         {
-            var studentList = _storage.LoadStudentList();
-            _storage.UpdateStudentList(studentList + "," + newStudent);
+            _studentList += "," + newStudent;
+            _storage.UpdateStudentList(_studentList);
         }
 
         public bool StudentExists(string student)
         {
-            var studentList = _storage.LoadStudentList();
-            var students = studentList.Split(',');
+            var students = _studentList.Split(StudentEntryDelimiter);
 
             // Using the 'Any'  LINQ method to return whether or not 
             // any item  matches the given predicate.
