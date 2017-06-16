@@ -10,6 +10,13 @@ namespace StudentList.Services
         private Random _rand;
         private string _studentList;
 
+        public StudentManager()
+        {
+            _storage = new StudentStorage();
+            _rand = new Random();
+            _studentList = _storage.LoadStudentList();
+        }
+
         /// <summary>
         /// Initializes a new instance of the StudentManager class.
         /// </summary>
@@ -62,12 +69,7 @@ namespace StudentList.Services
         {
             // Using the 'Any'  LINQ method to return whether or not 
             // any item  matches the given predicate.
-            if (this.Students.Any(s => s.Trim() == student))
-            {
-                return true;
-            }
-
-            return false;
+            return this.Students.Any(s => s.Trim() == student);
         }
 
     }

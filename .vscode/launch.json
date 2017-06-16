@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceRoot}/bin/Debug/netcoreapp1.1/student-list.dll",
-            "args": [],
-            "cwd": "${workspaceRoot}",
+            "program": "${workspaceRoot}/StudentList.Console/bin/Debug/netcoreapp1.1/student-list.dll",
+            "args": ["?dev275x-student2"],
+            "cwd": "${workspaceRoot}/StudentList.Console",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
             "console": "internalConsole",
             "stopAtEntry": false,
