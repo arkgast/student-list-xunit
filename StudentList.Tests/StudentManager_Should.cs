@@ -23,7 +23,7 @@ namespace StudentList.Tests
             var sut = new StudentManager(mockStorage.Object);
 
             // Act
-            var actual = sut.GetAllStudents();
+            var actual = sut.Students;
 
             // Assert
             Assert.IsType(typeof(string[]), actual);
@@ -38,10 +38,68 @@ namespace StudentList.Tests
             var sut = new StudentManager(mockStorage.Object);
 
             // Act
-            var actual = sut.CountStudents();
+            var actual = sut.Students.Length;
 
             // Assert
             Assert.Equal(actual, 3);
+        }
+
+        [Fact]
+        public void ReturnRandomStudent()
+        {
+            // Arrange
+            var sut = new StudentManager(mockStorage.Object);
+            var actualString = mockStorage.Object.LoadStudentList();
+
+            // Act
+            var expectedSubString = sut.PickRandomStudent();
+
+           // Assert
+           Assert.Contains(expectedSubString, actualString); 
+        }
+
+        [Fact]
+        public void Call_UpdateStudentList_When_StudentAdded()
+        {
+            // Arrange
+            var sut = new StudentManager(mockStorage.Object);
+            var originalList = mockStorage.Object.LoadStudentList();
+            var newStudent = "testStudent";
+            var updatedList = originalList + "," + newStudent;
+
+            // Act
+            sut.AddStudent(newStudent);
+
+            // Assert
+            mockStorage.Verify(x => x.UpdateStudentList(updatedList));
+        }
+
+        [Fact]
+        public void ReturnTrue_When_SearchForExisitingStudent()
+        {
+            // Arrange
+            var sut = new StudentManager(mockStorage.Object);
+            var existingStudent = "student1";
+
+            // Act
+            var actual = sut.StudentExists(existingStudent);
+
+            // Assert
+            Assert.True(actual);
+        }
+
+        [Fact]
+        public void ReturnFalse_When_SearchForNonExistentStudent()
+        {
+            // Arrange
+            var sut = new StudentManager(mockStorage.Object);
+            var fakeStudent = "student";
+
+            // Act
+            var actual = sut.StudentExists(fakeStudent);
+
+            // Assert
+            Assert.False(actual);
         }
     }
 }
