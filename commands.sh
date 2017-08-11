@@ -17,3 +17,12 @@ dotnet sln add StudentList.Tests/StudentList.Tests.csproj
 
 # Build to make sure that everything is working as expected
 dotnet build student-list-xunit.sln
+
+# Add moq framekwork
+dotnet add StudentList.Tests/StudentList.Tests package moq
+
+# Add StudentList.Services reference to StudentList.Tests in order to perform tests
+dotnet add StudentList.Tests/StudentList.Tests.csproj reference StudentList.Services/StudentList.Services.csproj
+
+# Test
+dotnet test StudentList.Tests/StudentList.Tests.csproj
