@@ -10,6 +10,11 @@ namespace StudentList.Services
         private StudentStorage _storage;
         private Random _rand;
         private string _studentList;
+
+        /// <summary>
+        /// Initializes a new instance of the StudentManager class.
+        /// </summary>
+        /// <param name="storage">The backing student storage.</param>
         public StudentManager(StudentStorage storage)
         {
             _storage = storage;
@@ -17,6 +22,10 @@ namespace StudentList.Services
             _studentList = _storage.LoadStudentList();
         }
 
+        /// <summary>
+        /// Returns the list of students
+        /// </summary>
+        /// <returns>An array of student names.</returns>
         public string[] Students
         {
             get
@@ -25,26 +34,36 @@ namespace StudentList.Services
             }
         }
 
+         /// <summary>
+         /// Returns a student randonly chosen from the student list.
+         /// </summary>
+         /// <returns>The random student.</returns>
         public string PickRandomStudent()
         {
-            var students = _studentList.Split(StudentEntryDelimiter);
-            var randomIndex = _rand.Next(0, students.Length);
-            return students[randomIndex];
+            var randomIndex = _rand.Next(0, Students.Length);
+            return Students[randomIndex];
         }
 
+        /// <summary>
+        /// Adds the student with the given student name to the list of students.
+        /// </summary>
+        /// <param name="newStudent">The name of the new student.</param>
         public void AddStudent(string newStudent)
         {
             _studentList += StudentEntryDelimiter + newStudent;
             _storage.UpdateStudentList(_studentList);
         }
 
+        /// <summary>
+        /// Determines whether a student exists in the student list.
+        /// </summary>
+        /// <param name="student">The student to check.</param>
+        /// <returns>true if the student exists in the list;otherwise, false.</returns>
         public bool StudentExists(string student)
         {
-            var students = _studentList.Split(StudentEntryDelimiter);
-
             // Using the 'Any' LINQ method to return whether or not
             // any item matches the given predicate.
-            if (students.Any(s => s.Trim() == student))
+            if (Students.Any(s => s.Trim() == student))
             {
                 return true;
             }
